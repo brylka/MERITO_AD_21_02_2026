@@ -1,4 +1,4 @@
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import train_test_split, cross_val_score
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.datasets import load_iris
 
@@ -18,3 +18,8 @@ test_acc = single_tree.score(X_test, y_test)
 print(f"Dokładność na zbiorze treningowym: {train_acc}")
 print(f"Dokładność na zbiorze testowym:    {test_acc}")
 print(f"Różnica:                           {train_acc - test_acc}")
+
+cv_scores = cross_val_score(single_tree, X, y, cv=10)
+print(f"Walidacja krzyżowa:")
+print(f"Średnia dokładność: {cv_scores.mean()}")
+print(f"Odchylenie std:     {cv_scores.std()}")
