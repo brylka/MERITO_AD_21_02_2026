@@ -1,4 +1,3 @@
-from sklearn.model_selection import train_test_split, cross_val_score
 from sklearn.model_selection import GridSearchCV
 import xgboost as xgb
 from sklearn.datasets import load_digits
