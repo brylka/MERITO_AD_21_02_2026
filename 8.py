@@ -15,17 +15,19 @@ X_train, X_test, y_train, y_test = train_test_split(
 )
 
 n_es = [10, 20, 50, 100, 200, 300, 400, 500, 1000]
+lrs = [0.001, 0.01, 0.1, 0.2, 0.3, 0.4, 0.5]
 
-print(f"{'ilość drzew':<25} {'D.treningowa':<15} {'D.testowa':<15} {'Średnia CV':<15} {'std':<15} {'czas':<10}")
+print(f"{'ilość drzew':<25} {'learning_rate':<15} {'D.treningowa':<15} {'D.testowa':<15} {'Średnia CV':<15} {'std':<15} {'czas':<10}")
 
 for n_e in n_es:
-    model = xgb.XGBClassifier(n_estimators=n_e, learning_rate=0.1, random_state=42)
-    start = time.time()
-    model.fit(X_train, y_train)
-    tree_cv_scores = cross_val_score(model, X, y, cv=10)
-    stop = time.time()
+    for lr in lrs:
+        model = xgb.XGBClassifier(n_estimators=n_e, learning_rate=lr, random_state=42)
+        start = time.time()
+        model.fit(X_train, y_train)
+        tree_cv_scores = cross_val_score(model, X, y, cv=10)
+        stop = time.time()
 
-    tree_train_acc = model.score(X_train, y_train)
-    tree_test_acc = model.score(X_test, y_test)
+        tree_train_acc = model.score(X_train, y_train)
+        tree_test_acc = model.score(X_test, y_test)
 
-    print(f"{n_e:<25} {tree_train_acc:<15.2f} {tree_test_acc:<15.2f} {tree_cv_scores.mean():<15.2f} {tree_cv_scores.std():<15.2f} {stop - start:<15.2f}")
+        print(f"{n_e:<25} {lr:<15} {tree_train_acc:<15.2f} {tree_test_acc:<15.2f} {tree_cv_scores.mean():<15.2f} {tree_cv_scores.std():<15.2f} {stop - start:<15.2f}")
