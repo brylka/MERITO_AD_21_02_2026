@@ -9,7 +9,11 @@ X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.3, random_state=42
 )
 
-xgb_classifier = xgb.XGBClassifier(random_state=42)
+xgb_classifier = xgb.XGBClassifier(
+    n_estimators=1000,
+    max_depth=3,
+    learning_rate=0.3,
+    random_state=42)
 xgb_classifier.fit(X_train, y_train)
 
 train_acc = xgb_classifier.score(X_train, y_train)
