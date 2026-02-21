@@ -14,7 +14,7 @@ single_tree = DecisionTreeClassifier(random_state=42)
 single_tree.fit(X_train, y_train)
 
 random_forest = RandomForestClassifier(
-    n_estimators=500,
+    n_estimators=200,
     max_depth=None,
     min_samples_split=2,
     min_samples_leaf=1,
@@ -48,3 +48,15 @@ rf_cv_scores = cross_val_score(random_forest, X, y, cv=10)
 print(f"Walidacja krzyżowa:")
 print(f"Średnia dokładność: {rf_cv_scores.mean()}")
 print(f"Odchylenie std:     {rf_cv_scores.std()}")
+
+import pandas as pd
+
+# print(iris.keys())
+
+feature_importance = pd.DataFrame({
+    'cecha': iris.feature_names,
+    'ważność': random_forest.feature_importances_
+}).sort_values('ważność')
+
+print("Ważność cech:")
+print(feature_importance.to_string())
