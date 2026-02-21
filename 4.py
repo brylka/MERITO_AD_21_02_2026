@@ -14,11 +14,11 @@ single_tree = DecisionTreeClassifier(random_state=42)
 single_tree.fit(X_train, y_train)
 
 random_forest = RandomForestClassifier(
-    n_estimators=200,
+    n_estimators=300,
     max_depth=None,
     min_samples_split=2,
     min_samples_leaf=1,
-    max_features='sqrt',
+    max_features=2,
     bootstrap=True,
     random_state=42)
 random_forest.fit(X_train, y_train)
