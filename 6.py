@@ -2,11 +2,11 @@ from sklearn.model_selection import train_test_split, cross_val_score
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier
 import xgboost as xgb
-from sklearn.datasets import load_iris
+from sklearn.datasets import load_digits
 import time
 
-iris = load_iris()
-X, y = iris.data, iris.target
+data = load_digits()
+X, y = data.data, data.target
 
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.3, random_state=42
@@ -14,10 +14,12 @@ X_train, X_test, y_train, y_test = train_test_split(
 
 models = {
     'POJEDYNCZE DRZEWO': DecisionTreeClassifier(random_state=42),
-    'LAS DRZEW DECYZYJNYCH': RandomForestClassifier(random_state=42),
-    'XGBOOST': xgb.XGBClassifier(random_state=42)
+    'LAS DRZEW (100)': RandomForestClassifier(n_estimators=100, random_state=42),
+    'LAS DRZEW (200)': RandomForestClassifier(n_estimators=200, random_state=42),
+    'XGBOOST (100)': xgb.XGBClassifier(n_estimators=100, random_state=42),
+    'XGBOOST (200)': xgb.XGBClassifier(n_estimators=200, random_state=42),
 }
-
+print(f"{'model':<25} {'D.treningowa':<15} {'D.testowa':<15} {'Średnia CV':<15} {'std':<15} {'czas':<10}")
 for name, model in models.items():
     start = time.time()
     model.fit(X_train, y_train)
@@ -25,14 +27,6 @@ for name, model in models.items():
 
     tree_train_acc = model.score(X_train, y_train)
     tree_test_acc = model.score(X_test, y_test)
-
-    print(f"{name}:")
-    print(f"Dokładność na zbiorze treningowym: {tree_train_acc}")
-    print(f"Dokładność na zbiorze testowym:    {tree_test_acc}")
-    print(f"Różnica:                           {tree_train_acc - tree_test_acc}")
-
     tree_cv_scores = cross_val_score(model, X, y, cv=10)
-    print(f"Walidacja krzyżowa:")
-    print(f"Średnia dokładność: {tree_cv_scores.mean():.2f}")
-    print(f"Odchylenie std:     {tree_cv_scores.std():.2f}")
-    print(f"Czas treningu:      {stop - start:.2f}s")
+
+    print(f"{name:<25} {tree_train_acc:<15.2f} {tree_test_acc:<15.2f} {tree_cv_scores.mean():<15.2f} {tree_cv_scores.std():<15.2f} {stop - start:<15.2f}")
