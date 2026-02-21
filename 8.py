@@ -1,8 +1,5 @@
 from sklearn.model_selection import train_test_split, cross_val_score
-from sklearn.tree import DecisionTreeClassifier
-from sklearn.ensemble import RandomForestClassifier
 import xgboost as xgb
-import lightgbm as lgb
 from sklearn.datasets import load_digits
 import time
 import pandas as pd
