@@ -13,7 +13,7 @@ param_grid = {
 
 model = xgb.XGBClassifier(random_state=42)
 
-grid_search = RandomizedSearchCV(model, param_grid, n_iter=10 ,cv=10, scoring='accuracy', verbose=1)
+grid_search = RandomizedSearchCV(model, param_grid, n_iter=10, cv=10, scoring='accuracy', verbose=1)
 grid_search.fit(X, y)
 
 print(f"Najlepsze parametry:  {grid_search.best_params_}")
