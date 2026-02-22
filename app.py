@@ -8,6 +8,7 @@ model = joblib.load('model.joblib')
 
 @app.route("/", methods=['GET', 'POST'])
 def index():
+    digit = None
     if request.method == "POST":
         file = request.files['image']
         if file:
@@ -16,11 +17,8 @@ def index():
             data = np.array(img)
             data = 16 - (data / 255 * 16)
             data = data.flatten().reshape(1, -1)
-            digit = model.predict(data)
-            print(digit)
-
-
-    return render_template('index.html')
+            digit = model.predict(data)[0]
+    return render_template('index.html', digit=digit)
 
 if __name__ == "__main__":
     app.run(debug=True)

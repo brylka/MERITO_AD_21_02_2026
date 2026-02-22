@@ -11,5 +11,8 @@
         <br>
         <button type="submit">Rozpoznaj</button>
     </form>
+    {% if digit is not none %}
+    <p>Rozpoznana cyfra: {{ digit }}</p>
+    {% endif %}
 </body>
 </html>
